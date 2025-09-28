@@ -265,7 +265,6 @@ MIT License - see LICENSE file for details
 ## Support
 
 - Report issues: [GitHub Issues](https://github.com/jklejczyk/grav-plugin-przelewy24/issues)
-- Documentation: [GitHub Wiki](https://github.com/jklejczyk/grav-plugin-przelewy24/wiki)
 
 ## Acknowledgments
 
