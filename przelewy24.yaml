@@ -1,0 +1,10 @@
+enabled: true
+merchant_id: ''
+crc_key: ''
+api_key: ''
+sandbox: false
+currency: 'PLN'
+country: 'PL'
+language: 'pl'
+timezone: 'Europe/Warsaw'
+payment_description: 'Payment via Przelewy24'

@@ -1,0 +1,205 @@
+name: Przelewy24
+version: 1.0.0
+description: Backend-only plugin for Przelewy24 payment processing
+icon: credit-card
+author:
+  name: Jakub Klejczyk
+  email: jklejczyk@gmail.com
+homepage: https://github.com/jklejczyk/grav-plugin-przelewy24
+keywords: grav, plugin, przelewy24, payment, ecommerce, poland
+bugs: https://github.com/jklejczyk/grav-plugin-przelewy24/issues
+docs: https://github.com/jklejczyk/grav-plugin-przelewy24/blob/main/README.md
+license: MIT
+
+dependencies:
+  - { name: grav, version: '>=1.7.0' }
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin status
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
+    credentials_priority:
+      type: spacer
+      title: Credentials Configuration
+      text: <strong>Priority Order:</strong><br>
+            1. <strong>Environment Variables</strong> (Recommended for production)<br>
+            &nbsp;&nbsp;&nbsp;P24_MERCHANT_ID, P24_CRC_KEY, P24_API_KEY<br>
+            2. <strong>Admin Panel</strong> (Fallback for development)<br><br>
+            <strong>Security Notice:</strong> Admin panel credentials are stored in plain text.<br>
+            For production, use environment variables instead.
+
+    merchant_id:
+      type: text
+      size: large
+      label: Merchant ID (Optional)
+      help: Your Przelewy24 Merchant ID - leave empty if using environment variables
+
+    crc_key:
+      type: password
+      size: large
+      label: CRC Key (Optional)
+      help: Your Przelewy24 CRC Key - leave empty if using environment variables
+
+    api_key:
+      type: password
+      size: large
+      label: API Key (Optional)
+      help: Your Przelewy24 API Key - leave empty if using environment variables
+
+    sandbox:
+      type: toggle
+      label: Sandbox Mode
+      help: Enable for testing with Przelewy24 sandbox
+      highlight: 1
+      default: 1
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
+    form_integration_info:
+      type: spacer
+      title: Form Integration
+      text: <strong>Required form configuration:</strong><br>
+            • <strong>Action:</strong> <code>action="przelewy24/wspieraj"</code><br>
+            • <strong>Method:</strong> <code>method="POST"</code><br>
+            • <strong>Required fields:</strong> <code>email</code> and <code>amount</code><br><br>
+            <strong>Example form structure:</strong><br>
+            <code>&lt;form method="POST" action="przelewy24/wspieraj"&gt;<br>
+            &nbsp;&nbsp;&lt;input type="email" name="email" required&gt;<br>
+            &nbsp;&nbsp;&lt;input type="number" name="amount" required&gt;<br>
+            &nbsp;&nbsp;&lt;button type="submit"&gt;Pay&lt;/button&gt;<br>
+            &lt;/form&gt;</code>
+
+    form_overrides_info:
+      type: spacer
+      title: Form Field Overrides
+      text: <strong>You can override these default settings per-form using hidden inputs:</strong><br>
+            <code>&lt;input type="hidden" name="currency" value="EUR"&gt;</code><br>
+            <code>&lt;input type="hidden" name="description" value="Custom payment"&gt;</code><br>
+            <code>&lt;input type="hidden" name="country" value="DE"&gt;</code><br>
+            <code>&lt;input type="hidden" name="language" value="en"&gt;</code><br><br>
+            <strong>Available override fields:</strong><br>
+            • <code>currency</code> - Override default currency<br>
+            • <code>description</code> - Override payment description<br>
+            • <code>country</code> - Override default country<br>
+            • <code>language</code> - Override payment interface language<br><br>
+            If not provided, form will use the default values configured below.
+
+    currency:
+      type: select
+      size: medium
+      label: Default Currency
+      default: PLN
+      options:
+        PLN: Polish Złoty (PLN)
+        EUR: Euro (EUR)
+        USD: US Dollar (USD)
+        GBP: British Pound (GBP)
+        CHF: Swiss Franc (CHF)
+        CZK: Czech Koruna (CZK)
+        NOK: Norwegian Krone (NOK)
+        SEK: Swedish Krona (SEK)
+        DKK: Danish Krone (DKK)
+        CAD: Canadian Dollar (CAD)
+        AUD: Australian Dollar (AUD)
+        JPY: Japanese Yen (JPY)
+        HUF: Hungarian Forint (HUF)
+        RON: Romanian Leu (RON)
+        BGN: Bulgarian Lev (BGN)
+        HRK: Croatian Kuna (HRK)
+        UAH: Ukrainian Hryvnia (UAH)
+
+    country:
+      type: select
+      size: medium
+      label: Default Country
+      default: PL
+      options:
+        PL: Poland
+        DE: Germany
+        GB: United Kingdom
+        FR: France
+        IT: Italy
+        ES: Spain
+        NL: Netherlands
+        BE: Belgium
+        AT: Austria
+        CH: Switzerland
+        CZ: Czech Republic
+        SK: Slovakia
+        HU: Hungary
+        RO: Romania
+        BG: Bulgaria
+        HR: Croatia
+        SI: Slovenia
+        LT: Lithuania
+        LV: Latvia
+        EE: Estonia
+        FI: Finland
+        SE: Sweden
+        DK: Denmark
+        NO: Norway
+        IE: Ireland
+        PT: Portugal
+        GR: Greece
+        LU: Luxembourg
+        MT: Malta
+        CY: Cyprus
+        US: United States
+        CA: Canada
+        AU: Australia
+        NZ: New Zealand
+        JP: Japan
+        UA: Ukraine
+
+    language:
+      type: select
+      size: medium
+      label: Payment Interface Language
+      help: Language of the Przelewy24 payment page interface
+      default: pl
+      options:
+        pl: Polish
+        en: English
+        de: German
+        fr: French
+        it: Italian
+        es: Spanish
+        nl: Dutch
+        cs: Czech
+        sk: Slovak
+        hu: Hungarian
+        ro: Romanian
+        bg: Bulgarian
+        hr: Croatian
+        sl: Slovenian
+        lt: Lithuanian
+        lv: Latvian
+        et: Estonian
+        fi: Finnish
+        sv: Swedish
+        da: Danish
+        no: Norwegian
+        pt: Portuguese
+        el: Greek
+        uk: Ukrainian
+        ru: Russian
+
+    payment_description:
+      type: text
+      size: large
+      label: Default Payment Description
+      default: 'Payment via Przelewy24'
+      help: Default description for payments
